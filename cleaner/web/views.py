@@ -3,6 +3,8 @@ from .forms import UserLoginForm, CreateUser, FileForm
 from django.contrib.auth import authenticate, login, logout as django_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+import pandas as pd
+import numpy as np
 
 from .models import File
 
@@ -12,8 +14,9 @@ def index(request):
     form = FileForm(request.POST, request.FILES)
     if form.is_valid():
         upload = request.FILES.get('file')
-        file_ = File.objects.create(upload=upload)
-        file_.save()
+        file = File.objects.create(upload=upload)
+        file.save()
+        handle_file()
     context = {
         'form': form,
     }
@@ -55,3 +58,9 @@ def sign_up(request):
 def logout(request):
     django_logout(request)
     return redirect('/')
+
+
+def handle_file():
+    file = File.objects.latest('id')
+    df = pd.read_csv(file.upload.path)
+    print(df)
