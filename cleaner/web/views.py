@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import UserLoginForm, CreateUser
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout as django_logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 
@@ -18,6 +19,7 @@ def login_(request):
         password = log_in.cleaned_data.get('password')
         user = authenticate(username=username, password=password)
         login(request, user)
+        return redirect('/')
     context = {
         'log_in': log_in,
     }
@@ -38,3 +40,9 @@ def sign_up(request):
         "sign_up": sign_up_,
     }
     return render(request, 'signup.html', context)
+
+
+@login_required
+def logout(request):
+    django_logout(request)
+    return redirect('/')
