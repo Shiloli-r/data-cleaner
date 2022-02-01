@@ -1,10 +1,33 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title> Data Cleaner </title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--
+        Compiled and minified CSS
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+        Compiled and minified JavaScript
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    -->
+    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.min.css' %}" media="screen,projection"/>
+    {% block style %}{% endblock style %}
 </head>
 <body>
 
+    <!-- Nav Bar-->
+     <nav class="grey darken-2">
+    <div class="nav-wrapper">
+      <a href="#!" class="brand-logo"><i class="material-icons">library_books</i>Data Cleaner</a>
+      <ul class="right hide-on-med-and-down">
+       <li><a href=""><i class="material-icons left">person_outline</i> Log In </a></li>
+        <li><a href=""><i class="material-icons left">person</i> Sign UP </a></li>
+      </ul>
+    </div>
+  </nav>
+
+    <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
 </body>
 </html>
