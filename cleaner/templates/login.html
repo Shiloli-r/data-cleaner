@@ -3,8 +3,19 @@
 {% load static %}
 {% block body %}
 
-    <div>
-        <h1>Log In</h1>
+     <div class="row">
+
+    <div class="col s4 m3 l6 side-panel center offset-l3" >
+       <div class=""><h1 >Log In</h1></div>
+        <form action="" method="post" >
+            {% csrf_token %}
+            {{log_in}}
+            <div class="input-field ">
+              <button type="submit" class="btn">Log In</button>
+            </div>
+        </form>
     </div>
+
+   </div>
 
 {% endblock %}
