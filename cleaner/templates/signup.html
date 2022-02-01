@@ -9,10 +9,115 @@
        <div class=""><h1 >Sign Up</h1></div>
         <form action="" method="post" >
             {% csrf_token %}
-            {{sign_up}}
+
+            <!-- Sign up Form -->
+             <div class="row">
+                  <div class="col s12 l12">
+                    <div class="input-field">
+                      {{ sign_up.username }}
+                      <label for="{{sign_up.username.id_for_label}}" class="white">{{sign_up.username.label}}</label>
+                    </div>
+                    <div class="username-errors red-text">
+
+                    </div>
+                     {% if sign_up.username.errors %}
+                            {% for error in sign_up.username.errors %}
+                                 <div class=" red-text">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                  </div>
+
+                  <div class="col s12 l6">
+                    <div class="input-field">
+                       {{ sign_up.first_name }}
+                      <label for="{{sign_up.first_name.id_for_label}}" class="white">{{sign_up.first_name.label}}</label>
+                    </div>
+                       {% if sign_up.first_name.errors %}
+                       {% for error in sign_up.first_name.errors %}
+                                 <div class=" red-text">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+                       {% endif %}
+                  </div>
+
+                  <div class="col s12 l6">
+                    <div class="input-field">
+                       {{ sign_up.last_name }}
+                      <label for="{{sign_up.last_name.id_for_label}}" class="white">{{sign_up.last_name.label}}</label>
+                    </div>
+                      {% if sign_up.last_name.errors %}
+                       {% for error in sign_up.last_name.errors %}
+                                 <div class=" red-text">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+                       {% endif %}
+                  </div>
+
+                <div class="col s12 l12">
+                  <div class="input-field">
+                    {{ sign_up.email }}
+                   <label for="{{sign_up.email.id_for_label}}" class="white">{{sign_up.email.label}}</label>
+                  </div>
+                <div class="email-errors red-text">
+
+                </div>
+                    {% if sign_up.email.errors %}
+                       {% for error in sign_up.email.errors %}
+                                 <div class=" red-text">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+                       {% endif %}
+                </div>
+
+            <div class="col s12 l6">
+                   <div class="input-field">
+                     {{ sign_up.password1 }}
+                     <label for="{{sign_up.password1.id_for_label}}" class="white">{{sign_up.password1.label}}</label>
+                   </div>
+                    {% if sign_up.password1.errors %}
+                       {% for error in sign_up.password1.errors %}
+                                 <div class=" red-text">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+                       {% endif %}
+            </div>
+
+                <div class="col s12 l6">
+                  <div class="input-field">
+                    {{ sign_up.password2 }}
+                    <label for="{{sign_up.password2.id_for_label}}" class="white">{{sign_up.password2.label}}</label>
+                  </div>
+                <div class="password-errors red-text">
+
+                    </div>
+                    {% if sign_up.password2.errors %}
+                       {% for error in sign_up.password2.errors %}
+                                 <div class=" red-text">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+                       {% endif %}
+                </div>
+                <div class="col s12 l12">
+                    <ul>
+                        <li class="blue-text">Your password cannot be too similar to your other personal information.</li>
+                        <li class="blue-text">Your password must contain at least 8 characters.</li>
+                        <li class="blue-text">Your password cannot be a commonly used password.</li>
+                        <li class="blue-text">Your password cannot be entirely numeric.</li>
+                    </ul>
+
+                </div>
+
             <div class="input-field ">
               <button type="submit" class="btn">Sign UP</button>
             </div>
+             </div>
         </form>
     </div>
 
