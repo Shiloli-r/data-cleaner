@@ -16,7 +16,7 @@ def index(request):
         upload = request.FILES.get('file')
         file = File.objects.create(upload=upload)
         file.save()
-        handle_file()
+        return redirect('/clean')
     context = {
         'form': form,
     }
@@ -60,7 +60,17 @@ def logout(request):
     return redirect('/')
 
 
-def handle_file():
+def clean(request):
     file = File.objects.latest('id')
     df = pd.read_csv(file.upload.path)
-    print(df)
+    row_count = df.shape[0]
+    col_count = df.shape[1]
+
+    context = {
+        'df': df,
+        'columns': df.columns,
+        'row_count': row_count,
+        'col_count': col_count,
+        'table': df.to_html,
+    }
+    return render(request, 'clean.html', context)
