@@ -9,7 +9,7 @@ from .models import File
 
 # Create your views here.
 def index(request):
-    form = FileForm(request.POST or None)
+    form = FileForm(request.POST, request.FILES)
     if form.is_valid():
         upload = request.FILES.get('file')
         file_ = File.objects.create(upload=upload)
