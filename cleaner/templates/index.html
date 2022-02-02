@@ -8,6 +8,12 @@
     <div class="col s4 m3 l10 side-panel center offset-l1" >
        <div class=""><h1 >Data Cleaner</h1></div>
             <h2 class="flow-text">Upload the File you want to clean </h2>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form }}
+            <button class="btn" type="submit">Upload</button>
+        </form>
     </div>
 
    </div>

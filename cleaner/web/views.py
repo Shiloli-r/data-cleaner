@@ -1,13 +1,22 @@
 from django.shortcuts import render, redirect
-from .forms import UserLoginForm, CreateUser
+from .forms import UserLoginForm, CreateUser, FileForm
 from django.contrib.auth import authenticate, login, logout as django_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
+from .models import File
+
 
 # Create your views here.
 def index(request):
-    context = {}
+    form = FileForm(request.POST or None)
+    if form.is_valid():
+        upload = request.FILES.get('file')
+        file_ = File.objects.create(upload=upload)
+        file_.save()
+    context = {
+        'form': form,
+    }
     return render(request, 'index.html', context)
 
 
