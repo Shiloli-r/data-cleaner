@@ -1,0 +1,17 @@
+*************  CHECK THE README  **********************
+
+How to run
+Install python
+clone the repository
+open Terminal/ powershell on the root of the project
+install virtualenv package - pip install virtualenv
+create a virtual environment - virtualenv env
+activate the virtual env env\Scripts\activate (for windows)
+install dependencies - run pip install -r requirements.txt
+change directory to cleaner cd cleaner
+make migrations - python manage.py makemigrations
+migrate - python manage.py migrate
+create superuser - python manage.py createsuperuser
+start server - python manage.py runserver
+open browser at localhost:8000
+access admin panel at localhost:8000/admin
