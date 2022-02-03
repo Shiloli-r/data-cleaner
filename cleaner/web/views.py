@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout as django_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 import pandas as pd
+from IPython.display import HTML
 import numpy as np
 
 from .models import File
@@ -65,12 +66,12 @@ def clean(request):
     df = pd.read_csv(file.upload.path)
     row_count = df.shape[0]
     col_count = df.shape[1]
-
+    table = HTML(df.to_html())
     context = {
         'df': df,
         'columns': df.columns,
         'row_count': row_count,
         'col_count': col_count,
-        'table': df.to_html,
+        'table': table,
     }
     return render(request, 'clean.html', context)

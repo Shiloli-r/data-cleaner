@@ -4,9 +4,11 @@
 
    <div class="row">
 
-    <div class="col s4 m3 l10 side-panel center offset-l1" >
+    <div class="col s4 m3 l8 side-panel center offset-l1" >
        <div class=""><h1 >Data Cleaner</h1></div>
 
+            {{df}}
+        <br><br>
         <table id="table_id" class="display">
             <thead>
                 <tr>
@@ -21,18 +23,22 @@
         </table>
     </div>
 
+    <div class="col s2 m2 l2 side-panel center" >
+        <br><br><br>
+        <h5>Auto Clean Data</h5>
+        <button class="btn"> Drop Missing columns</button>
+        <br><br>
+        <button class="btn">Forward Fill</button>
+        <br><br>
+        <button class="btn">Backward Fill</button>
+        <br><br>
+        <button class="btn">Interpolate</button>
+        <br><br>
+        <br><br><br>
+        <button class="btn green">Download File</button>
+    </div>
+
    </div>
 
 {% endblock %}
 
-
-<!--        <tr>-->
-<!--            <td>Row 1 Data 1</td>-->
-<!--            <td>Row 1 Data 2</td>-->
-<!--        </tr>-->
-<!--        <tr>-->
-<!--            <td>Row 2 Data 1</td>-->
-<!--            <td>Row 2 Data 2</td>-->
-<!--        </tr>-->
-    </tbody>
-</table>
