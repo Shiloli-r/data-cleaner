@@ -66,7 +66,7 @@ def clean(request):
     rows = []
     # Create the rows of the table
     for i in range(df.shape[0]):  # rows
-        rows.append([df.iloc[i][0]])
+        rows.append([])
         for j in range(df.shape[1]):  # columns
             rows[i].append(df.iloc[i][j])
     context = {
