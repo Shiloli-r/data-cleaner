@@ -4,7 +4,6 @@ from django.contrib.auth import authenticate, login, logout as django_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 import pandas as pd
-from IPython.display import HTML
 import numpy as np
 
 from .models import File
@@ -64,14 +63,14 @@ def logout(request):
 def clean(request):
     file = File.objects.latest('id')
     df = pd.read_csv(file.upload.path)
-    row_count = df.shape[0]
-    col_count = df.shape[1]
-    table = HTML(df.to_html())
+    rows = []
+    # Create the rows of the table
+    for i in range(df.shape[0]):  # rows
+        rows.append([df.iloc[i][0]])
+        for j in range(df.shape[1]):  # columns
+            rows[i].append(df.iloc[i][j])
     context = {
-        'df': df,
         'columns': df.columns,
-        'row_count': row_count,
-        'col_count': col_count,
-        'table': table,
+        'rows': rows,
     }
     return render(request, 'clean.html', context)

@@ -1,26 +1,37 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block style %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+{% endblock %}
 {% block body %}
 
    <div class="row">
 
     <div class="col s4 m3 l8 side-panel center offset-l1" >
-       <div class=""><h1 >Data Cleaner</h1></div>
-
-            {{df}}
-        <br><br>
-        <table id="table_id" class="display">
-            <thead>
+       <div class=""><h3>Data Cleaner</h3></div>
+        {{rows}}
+        <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                {% for column in columns %}
+                <th>{{column}}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
                 <tr>
-                    {% for column in columns %}
-                    <th>{{column}}</th>
+                    {% for r in row %}
+                        <td>{{r}}</td>
                     {% endfor %}
                 </tr>
-            </thead>
-            <tbody>
-
-            </tbody>
+            {% endfor %}
+        </tbody>
         </table>
+
+
     </div>
 
     <div class="col s2 m2 l2 side-panel center" >
@@ -40,5 +51,10 @@
 
    </div>
 
+<script>
+    $(document).ready(function() {
+    $('#example').DataTable();
+} );
+</script>
 {% endblock %}
 
