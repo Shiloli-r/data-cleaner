@@ -62,8 +62,31 @@ def logout(request):
 
 def clean(request):
     file = File.objects.latest('id')
-    df = pd.read_csv(file.upload.path)
+    missing_values = ["N/a", "na", np.nan]
+    df = pd.read_csv(file.upload.path, na_values=missing_values)
     rows = []
+
+    # check for any cleaning operations underway
+    drop_ = request.GET.get('drop')
+    ffill_ = request.GET.get('ffill')
+    bfill_ = request.GET.get('bfill')
+    interpolate_ = request.GET.get('interpolate')
+    if drop_:
+        df = drop(df)
+        df.to_csv(file.upload.path)
+        return redirect('/clean')
+    if ffill_:
+        df = f_fill(df)
+        df.to_csv(file.upload.path)
+        return redirect('/clean')
+    if bfill_:
+        df = b_fill(df)
+        df.to_csv(file.upload.path)
+        return redirect('/clean')
+    if interpolate_:
+        df = interpolate_(df)
+        df.to_csv(file.upload.path)
+        return redirect('/clean')
     # Create the rows of the table
     for i in range(df.shape[0]):  # rows
         rows.append([])
@@ -72,5 +95,26 @@ def clean(request):
     context = {
         'columns': df.columns,
         'rows': rows,
+        'download': file.upload.url,
     }
     return render(request, 'clean.html', context)
+
+
+def drop(dataframe):
+    dataframe = dataframe.dropna()
+    return dataframe
+
+
+def f_fill(dataframe):
+    dataframe = dataframe.fillna(method="ffill")
+    return dataframe
+
+
+def b_fill(dataframe):
+    dataframe = dataframe.fillna(method="bfill")
+    return dataframe
+
+
+def interpolate(dataframe):
+    dataframe = dataframe.interpolate()
+    return dataframe
