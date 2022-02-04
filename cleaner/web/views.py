@@ -63,7 +63,10 @@ def logout(request):
 def clean(request):
     file = File.objects.latest('id')
     missing_values = ["N/a", "na", np.nan]
-    df = pd.read_csv(file.upload.path, na_values=missing_values)
+    try:
+        df = pd.read_csv(file.upload.path, na_values=missing_values)
+    except UnicodeDecodeError:
+        df = pd.read_excel(file.upload.path, na_values=missing_values)
     rows = []
 
     # check for any cleaning operations underway
