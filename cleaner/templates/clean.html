@@ -36,8 +36,9 @@
     <div class="col s2 m2 l2 side-panel center" >
         <br><br><br><br><br><br>
         <h5>Auto Clean Data</h5>
-        <br>
-        <a href="{% url 'clean' %}?drop=true"><button class="btn"> Drop Missing Rows</button></a>
+        <a href="{% url 'clean' %}?drop_d=true"><button class="btn"> Clean Duplicates </button></a>
+        <br><br>
+        <a href="{% url 'clean' %}?drop_m=true"><button class="btn"> Drop Missing </button></a>
         <br><br>
         <a href="{% url 'clean' %}?ffill=true"><button class="btn">Forward Fill</button></a>
         <br><br>
@@ -45,7 +46,7 @@
         <br><br>
         <a href="{% url 'clean' %}?interpolate=true"><button class="btn">Interpolate</button></a>
         <br><br>
-        <br><br><br><br><br><br>
+        <br><br><br><br><br>
         <a href="{{download}}"><button class="btn green">Download File</button></a>
 
     </div>

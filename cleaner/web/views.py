@@ -70,12 +70,17 @@ def clean(request):
     rows = []
 
     # check for any cleaning operations underway
-    drop_ = request.GET.get('drop')
+    drop_m_ = request.GET.get('drop_m')
+    drop_d_ = request.GET.get('drop_d')
     ffill_ = request.GET.get('ffill')
     bfill_ = request.GET.get('bfill')
     interpolate_ = request.GET.get('interpolate')
-    if drop_:
-        df = drop(df)
+    if drop_m_:
+        df = drop_m(df)
+        df.to_csv(file.upload.path)
+        return redirect('/clean')
+    if drop_d_:
+        df = drop_d(df)
         df.to_csv(file.upload.path)
         return redirect('/clean')
     if ffill_:
@@ -103,8 +108,13 @@ def clean(request):
     return render(request, 'clean.html', context)
 
 
-def drop(dataframe):
+def drop_m(dataframe):
     dataframe = dataframe.dropna()
+    return dataframe
+
+
+def drop_d(dataframe):
+    dataframe = dataframe.drop_duplicates(keep='first')
     return dataframe
 
 
