@@ -92,7 +92,10 @@ def clean(request):
         df.to_csv(file.upload.path, index=False)
         return redirect('/clean')
     if interpolate_:
-        df = interpolate_(df)
+        try:
+            df = interpolate_(df)
+        except TypeError:
+            pass
         df.to_csv(file.upload.path, index=False)
         return redirect('/clean')
     # Create the rows of the table
