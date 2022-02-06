@@ -33,6 +33,7 @@ def index(request):
             with open(path+"/{}.jpg".format(uuid4()), 'wb+') as f:
                 for chunk in file.chunks():
                     f.write(chunk)
+            return redirect('/clean-images')
     context = {
         'form': form,
     }
@@ -74,6 +75,15 @@ def sign_up(request):
 def logout(request):
     django_logout(request)
     return redirect('/')
+
+
+def clean_images(request):
+    parent_dir = "../cleaner/media"
+    path = os.path.join(parent_dir, "input")
+    context = {
+
+    }
+    return render(request, "clean-images.html", context)
 
 
 def clean(request):
