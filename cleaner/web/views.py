@@ -21,7 +21,7 @@ def index(request):
         return redirect('/clean')
     if request.method == 'POST':
         files = request.FILES.getlist('datafiles')
-        parent = "../media"
+        parent = "../cleaner/media"
         path = os.path.join(parent, "input")
         try:
             os.mkdir(path)
