@@ -3,8 +3,10 @@ from .forms import UserLoginForm, CreateUser, FileForm
 from django.contrib.auth import authenticate, login, logout as django_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from uuid import uuid4
 import pandas as pd
 import numpy as np
+import os
 
 from .models import File
 
@@ -17,6 +19,20 @@ def index(request):
         file = File.objects.create(upload=upload)
         file.save()
         return redirect('/clean')
+    if request.method == 'POST':
+        files = request.FILES.getlist('datafiles')
+        parent = "../media"
+        path = os.path.join(parent, "input")
+        try:
+            os.mkdir(path)
+        except FileExistsError:
+            import shutil
+            shutil.rmtree(path)
+            os.mkdir(path)
+        for file in files:
+            with open(path+"/{}.jpg".format(uuid4()), 'wb+') as f:
+                for chunk in file.chunks():
+                    f.write(chunk)
     context = {
         'form': form,
     }
