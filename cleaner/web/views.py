@@ -77,23 +77,23 @@ def clean(request):
     interpolate_ = request.GET.get('interpolate')
     if drop_m_:
         df = drop_m(df)
-        df.to_csv(file.upload.path)
+        df.to_csv(file.upload.path, index=False)
         return redirect('/clean')
     if drop_d_:
         df = drop_d(df)
-        df.to_csv(file.upload.path)
+        df.to_csv(file.upload.path, index=False)
         return redirect('/clean')
     if ffill_:
         df = f_fill(df)
-        df.to_csv(file.upload.path)
+        df.to_csv(file.upload.path, index=False)
         return redirect('/clean')
     if bfill_:
         df = b_fill(df)
-        df.to_csv(file.upload.path)
+        df.to_csv(file.upload.path, index=False)
         return redirect('/clean')
     if interpolate_:
         df = interpolate_(df)
-        df.to_csv(file.upload.path)
+        df.to_csv(file.upload.path, index=False)
         return redirect('/clean')
     # Create the rows of the table
     for i in range(df.shape[0]):  # rows
@@ -114,8 +114,8 @@ def drop_m(dataframe):
 
 
 def drop_d(dataframe):
-    dataframe = dataframe.drop_duplicates(keep='first')
-    return dataframe
+    df = dataframe.drop_duplicates(keep='first')
+    return df
 
 
 def f_fill(dataframe):
