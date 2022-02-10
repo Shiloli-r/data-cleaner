@@ -111,15 +111,14 @@ def clean_images(request):
     directory_in_str = path
     directory = os.fsencode(directory_in_str)
     img_paths = []
-    results = []
+    filenames = []
 
     for file in os.listdir(directory):
         filename = os.fsdecode(file)
         img_paths.append(directory_in_str + "/" + filename)
-        results.append(filename)
+        filenames.append(filename)
 
     # Get the breeds
-    cat_breeds = []
     dog_breeds = []
     with open("../dog_breeds.txt", encoding='utf-8') as f:
         for line in f:
@@ -135,6 +134,7 @@ def clean_images(request):
     dogs = []
     cats = []
     misc = []
+    predictions = []
     for path in img_paths:
         image_ = load_img(path, target_size=(224, 224))
         image = img_to_array(image_)
@@ -143,6 +143,7 @@ def clean_images(request):
         yhat = model.predict(image)
         label = decode_predictions(yhat)
         label = label[0][0]
+        predictions.append('%s (%.2f%%)' % (label[1], label[2] * 100))
 
         if label[1] in dog_breeds:
             print('Dog - %s (%.2f%%)' % (label[1], label[2] * 100))
@@ -154,8 +155,14 @@ def clean_images(request):
             print('%s (%.2f%%)' % (label[1], label[2] * 100))
             misc.append(path)
 
+    results = []
+    for i in range(len(predictions)):
+        results.append([filenames[i], predictions[i]])
+
     context = {
         "results": results,
+        "predictions": predictions,
+        "filenames": filenames,
         "dogs": dogs,
         "cats": cats,
         "misc": misc,
