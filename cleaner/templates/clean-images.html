@@ -7,6 +7,9 @@
 
     <div class="col s4 m3 l6 side-panel center offset-l3" >
        <div class=""><h1 >Clean Images</h1></div>
+        {% for image in images %}
+        <img src="{{image}}" alt="{{image}}">
+        {% endfor %}
 
     </div>
 

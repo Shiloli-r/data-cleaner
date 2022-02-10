@@ -3,12 +3,34 @@ from .forms import UserLoginForm, CreateUser, FileForm
 from django.contrib.auth import authenticate, login, logout as django_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from keras.preprocessing.image import load_img, image_dataset_from_directory
+from keras.preprocessing.image import img_to_array
+from keras.applications.vgg16 import preprocess_input
+from keras.applications.vgg16 import decode_predictions
+from keras.applications.vgg16 import VGG16
+
 from uuid import uuid4
 import pandas as pd
 import numpy as np
 import os
 
 from .models import File
+
+
+def run_once(f):
+    def wrapper(*args, **kwargs):
+        if not wrapper.has_run:
+            wrapper.has_run = True
+            return f(*args, **kwargs)
+
+    wrapper.has_run = False
+    return wrapper
+
+
+@run_once
+def create_model():
+    model = VGG16()
+    return model
 
 
 # Create your views here.
@@ -30,10 +52,10 @@ def index(request):
             shutil.rmtree(path)
             os.mkdir(path)
         for file in files:
-            with open(path+"/{}.jpg".format(uuid4()), 'wb+') as f:
+            with open(path + "/{}.jpg".format(uuid4()), 'wb+') as f:
                 for chunk in file.chunks():
                     f.write(chunk)
-            return redirect('/clean-images')
+        return redirect('/clean-images')
     context = {
         'form': form,
     }
@@ -80,8 +102,61 @@ def logout(request):
 def clean_images(request):
     parent_dir = "../cleaner/media"
     path = os.path.join(parent_dir, "input")
-    context = {
 
+    # load the model
+    #  model = create_model()
+    model = VGG16()
+
+    # load images from directory
+    directory_in_str = path
+    directory = os.fsencode(directory_in_str)
+    img_paths = []
+
+    for file in os.listdir(directory):
+        filename = os.fsdecode(file)
+        img_paths.append(directory_in_str + "/" + filename)
+
+    # Get the breeds
+    cat_breeds = []
+    dog_breeds = []
+    with open("../dog_breeds.txt", encoding='utf-8') as f:
+        for line in f:
+            line = str(line)
+            dog_breeds.append(line.replace('\n', ''))
+
+    cat_breeds = []
+    with open("../cat_breeds.txt", encoding='utf-8') as f:
+        for line in f:
+            line = str(line)
+            cat_breeds.append(line.replace('\n', ''))
+
+    dogs = []
+    cats = []
+    misc = []
+    for path in img_paths:
+        image_ = load_img(path, target_size=(224, 224))
+        image = img_to_array(image_)
+        image = image.reshape((1, image.shape[0], image.shape[1], image.shape[2]))
+        image = preprocess_input(image)
+        yhat = model.predict(image)
+        label = decode_predictions(yhat)
+        label = label[0][0]
+
+        if label[1] in dog_breeds:
+            print('Dog - %s (%.2f%%)' % (label[1], label[2] * 100))
+            dogs.append(path)
+        elif label[1] in cat_breeds:
+            print('cat - %s (%.2f%%)' % (label[1], label[2] * 100))
+            cats.append(path)
+        else:
+            print('%s (%.2f%%)' % (label[1], label[2] * 100))
+            misc.append(path)
+
+    context = {
+        "images": img_paths,
+        "dogs": dogs,
+        "cats": cats,
+        "misc": misc,
     }
     return render(request, "clean-images.html", context)
 

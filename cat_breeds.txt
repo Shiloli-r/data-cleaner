@@ -1,0 +1,8 @@
+Egyptian_cat
+tiger_cat
+tabby
+Siamese_cat
+lynx
+Persian_cat
+carton
+Angora
