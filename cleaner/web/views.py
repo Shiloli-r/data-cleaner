@@ -164,6 +164,9 @@ def clean_images(request):
         "predictions": predictions,
         "filenames": filenames,
         "dogs": dogs,
+        "no_dogs": len(dogs),
+        "no_cats": len(cats),
+        "no_misc": len(misc),
         "cats": cats,
         "misc": misc,
     }
