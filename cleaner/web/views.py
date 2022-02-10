@@ -147,16 +147,15 @@ def clean_images(request):
         yhat = model.predict(image)
         label = decode_predictions(yhat)
         label = label[0][0]
-        predictions.append('%s (%.2f%%)' % (label[1], label[2] * 100))
 
         if label[1] in dog_breeds:
-            print('Dog - %s (%.2f%%)' % (label[1], label[2] * 100))
+            predictions.append(' Dog - %s (%.2f%%)' % (label[1], label[2] * 100))
             dogs.append(path)
         elif label[1] in cat_breeds:
-            print('cat - %s (%.2f%%)' % (label[1], label[2] * 100))
+            predictions.append(' Cat - %s (%.2f%%)' % (label[1], label[2] * 100))
             cats.append(path)
         else:
-            print('%s (%.2f%%)' % (label[1], label[2] * 100))
+            predictions.append('Uncertain - %s (%.2f%%)' % (label[1], label[2] * 100))
             misc.append(path)
 
     results = []
