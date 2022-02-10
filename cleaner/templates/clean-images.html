@@ -31,6 +31,10 @@
         <div class="col s2 m2 l2 side-panel center" >
         <br><br><br><br><br><br>
         <h5>Auto Clean Data</h5>
+            <br><br>
+            <h6>Identified Dogs: {{no_dogs}}</h6><br>
+            <h6>Identified Cats: {{no_cats}}</h6><br>
+            <h6>Miscellaneous: {{no_misc}}</h6><br>
         <a href="{% url 'clean-images' %}?unrecognized=true"><button class="btn"> Clean Unrecognized </button></a>
         <br><br>
         <a href="{% url 'clean-images' %}?majority=true"><button class="btn"> Clean Majority </button></a>

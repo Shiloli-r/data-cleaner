@@ -100,6 +100,10 @@ def logout(request):
 
 
 def clean_images(request):
+    unrecognized = request.GET.get('unrecognized')
+    majority = request.GET.get('majority')
+    minority = request.GET.get('minority')
+
     parent_dir = "../cleaner/media"
     path = os.path.join(parent_dir, "input")
 
