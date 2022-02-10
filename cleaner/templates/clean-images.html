@@ -6,13 +6,46 @@
      <div class="row">
 
     <div class="col s4 m3 l6 side-panel center offset-l3" >
-       <div class=""><h1 >Clean Images</h1></div>
-        {% for image in images %}
-        <img src="{{image}}" alt="{{image}}">
-        {% endfor %}
+        <div class=""><h1 >Clean Images</h1></div>
+        <br>
+         <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Prediction</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+                <tr>
+                   <td>
+                        <img src="media/input/{{result}}" alt="Image" width="100" height="100">
+                   </td>
+                        <td>Prediction</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+
+    </div>
+        <div class="col s2 m2 l2 side-panel center" >
+        <br><br><br><br><br><br>
+        <h5>Auto Clean Data</h5>
+        <a href="{% url 'clean-images' %}?unrecognized=true"><button class="btn"> Clean Unrecognized </button></a>
+        <br><br>
+        <a href="{% url 'clean-images' %}?majority=true"><button class="btn"> Clean Majority </button></a>
+        <br><br>
+        <a href="{% url 'clean-images' %}?minority=true"><button class="btn">Clean Minority </button></a>
+        <br><br>
+        <a href="{{download}}"><button class="btn green">Download File</button></a>
 
     </div>
 
    </div>
+<script>
+    $(document).ready(function() {
+    $('#example').DataTable();
+} );
+</script>
 
 {% endblock %}

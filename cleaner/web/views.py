@@ -111,10 +111,12 @@ def clean_images(request):
     directory_in_str = path
     directory = os.fsencode(directory_in_str)
     img_paths = []
+    results = []
 
     for file in os.listdir(directory):
         filename = os.fsdecode(file)
         img_paths.append(directory_in_str + "/" + filename)
+        results.append(filename)
 
     # Get the breeds
     cat_breeds = []
@@ -153,7 +155,7 @@ def clean_images(request):
             misc.append(path)
 
     context = {
-        "images": img_paths,
+        "results": results,
         "dogs": dogs,
         "cats": cats,
         "misc": misc,
