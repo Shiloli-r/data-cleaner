@@ -160,7 +160,33 @@ def clean_images(request):
 
     results = []
     for i in range(len(predictions)):
-        results.append([filenames[i], predictions[i]])
+        results.append([filenames[i], predictions[i], img_paths[i]])
+
+    if majority:
+        if len(dogs) > len(cats):
+            criteria = 'dog'
+        else:
+            criteria = 'cat'
+        for result in results:
+            if criteria in result[1]:
+                os.remove(result[2])
+        return redirect("/clean-images")
+
+    if minority:
+        if len(dogs) < len(cats):
+            criteria = 'dog'
+        else:
+            criteria = 'cat'
+        for result in results:
+            if criteria in result[1]:
+                os.remove(result[2])
+        return redirect("/clean-images")
+
+    if unrecognized:
+        for result in results:
+            if 'Dog -' not in result[1] and 'Cat -' not in result[1]:
+                os.remove(path + '/' + result[0])
+        return redirect("/clean-images")
 
     context = {
         "results": results,
